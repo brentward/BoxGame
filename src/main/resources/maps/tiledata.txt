@@ -1,0 +1,12 @@
+000_blank.png
+false
+001_grass.png
+true
+002_sky.png
+false
+003_cloud.png
+false
+004_ground.png
+true
+005_lava.png
+false
