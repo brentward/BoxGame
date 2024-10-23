@@ -38,6 +38,56 @@ public class KeyHandler implements KeyListener {
     }
 
     public void inputPressed(int code) {
+        if (gp.gameState == GamePanel.TITLE_STATE) {
+            titleState(code);
+        }
+        if (gp.gameState == GamePanel.PLAY_STATE) {
+            playState(code);
+        }
+        if (gp.gameState == GamePanel.PAUSE_STATE) {
+            pauseState(code);
+        }
+        if (gp.gameState == GamePanel.GAME_OVER_STATE) {
+            gameOverState(code);
+        }
+    }
+
+    public void inputReleased(int code) {
+        if (code == KeyEvent.VK_W) {
+            up = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            down = false;
+        }
+        if (code == KeyEvent.VK_A) {
+            left = false;
+        }
+        if (code == KeyEvent.VK_D) {
+            right = false;
+        }
+        setInputDirection();
+    }
+
+    public void titleState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.inputState.commandNumUp(1);
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.inputState.commandNumDown(1);
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            gp.inputState.accept = true;
+//            if (gp.inputState.commandNum == 0) {
+//                gp.gameState = GamePanel.PLAY_STATE;
+//            }
+//            if (gp.inputState.commandNum == 1) {
+//                System.exit(0);
+//            }
+
+        }
+    }
+
+    public void playState(int code) {
         if (code == KeyEvent.VK_W) {
             up = true;
         }
@@ -63,29 +113,31 @@ public class KeyHandler implements KeyListener {
 
     }
 
-    public void inputReleased(int code) {
-        if (code == KeyEvent.VK_W) {
-            up = false;
-        }
-        if (code == KeyEvent.VK_S) {
-            down = false;
-        }
-        if (code == KeyEvent.VK_A) {
-            left = false;
-        }
-        if (code == KeyEvent.VK_D) {
-            right = false;
-        }
-        setInputDirection();
-        if (code == KeyEvent.VK_SPACE) {
-            gp.inputState.jump = false;
-        }
-        if (code == KeyEvent.VK_J) {
-            gp.inputState.dash = false;
-        }
+    public void pauseState(int code) {
         if (code == KeyEvent.VK_P) {
             gp.inputState.pause = false;
         }
+
+    }
+
+    public void gameOverState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.inputState.commandNumUp(1);
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.inputState.commandNumDown(1);
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            gp.inputState.accept = true;
+//            if (gp.inputState.commandNum == 0) {
+//                gp.resetGame();
+//                gp.gameState = GamePanel.PLAY_STATE;
+//            }
+//            if (gp.inputState.commandNum == 1) {
+//                System.exit(0);
+//            }
+        }
+
     }
 
     public void setInputDirection() {

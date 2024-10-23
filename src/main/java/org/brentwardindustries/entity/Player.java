@@ -25,10 +25,17 @@ public class Player extends Entity{
         maxHSpeed = 24f;
         acceleration = 1.5f;
         breaks = 4.15f;
-        jumpSpeed = -30f;
-        dashSpeed = 56f;
+        dashDuration = 10;
+        dashMax = 3;
+        dashCount = dashMax;
+        jumpPower = 30f;
+        dashPower = 56f;
         direction = Direction.RIGHT;
 
+    }
+
+    public void reset() {
+        setDefaultValues();
     }
 
     public void update() {
@@ -36,15 +43,20 @@ public class Player extends Entity{
         yCollision = false;
 
         if (gp.inputState.dash) {
-            dashCounter = 8;
-            setDashSpeed();
-            gp.inputState.dash = false;
+            if (dashCount > 0) {
+                dashCount--;
+                dashTimer = dashDuration;
+                setDashSpeed();
+                dashing = true;
+                gp.inputState.dash = false;
+            }
         }
-        if (dashCounter > 0) {
-            dashCounter--;
-            if (dashCounter == 0) {
-                currentXSpeed = 0;
-                currentYSpeed = 0;
+        if (dashTimer > 0) {
+            dashTimer--;
+            if (dashTimer == 0) {
+                dashing = false;
+                currentXSpeed = tempXSpeed;
+                currentYSpeed = tempYSpeed;
             }
         } else {
             if (gp.inputState.inputDirection.horizontalDirection() == Direction.LEFT) {
@@ -104,11 +116,12 @@ public class Player extends Entity{
 
             if (gp.collisionChecker.checkGrounded(this)) {
                 currentYSpeed = 0;
+                dashCount = dashMax;
 //                if (gp.collisionChecker.inTile(this)) {
 //                    solidArea.y -= 1;
 //                }
                 if (gp.inputState.jump) {
-                    currentYSpeed = jumpSpeed;
+                    currentYSpeed = -jumpPower;
                     gp.inputState.jump = false;
                 }
             } else {

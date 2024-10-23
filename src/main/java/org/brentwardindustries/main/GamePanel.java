@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 
 public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = 48;
+    public final int halfTileSize = tileSize / 2;
 
     public final int maxScreenCol = 20;
     public final int maxScreenRow = 12;
@@ -29,14 +30,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    public InputState inputState = new InputState();
+    public InputState inputState = new InputState(this);
     public ControllerHandler controllerHandler = new ControllerHandler(this);
     public KeyHandler keyHandler = new KeyHandler(this);
     public TileManager tileManager = new TileManager(this);
+    public UI ui = new UI(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     Thread gameThread;
 
     public Player player = new Player(this);
+
+    public int gameState;
+    public static final int TITLE_STATE = 0;
+    public static final int PLAY_STATE = 1;
+    public static final int PAUSE_STATE = 2;
+    public static final int GAME_OVER_STATE = 3;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -49,6 +57,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setupGame() {
+        gameState = TITLE_STATE;
+    }
+
+    public void resetGame() {
+        player.reset();
     }
 
     @Override
@@ -72,15 +88,23 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         controllerHandler.pollController();
-        player.update();
+        inputState.update();
 
+        if (gameState == PLAY_STATE) {
+            player.update();
+        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
-        tileManager.draw(g2D);
-        player.draw(g2D);
+        if (gameState == TITLE_STATE) {
+            ui.draw(g2D);
+        } else {
+            tileManager.draw(g2D);
+            player.draw(g2D);
+            ui.draw(g2D);
+        }
         g2D.dispose();
     }
 }

@@ -18,6 +18,8 @@ public class TileManager {
     public int[][][] mapTileNum;
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
+    ArrayList<String> damageStatus = new ArrayList<>();
+    ArrayList<String> killStatus = new ArrayList<>();
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -32,7 +34,9 @@ public class TileManager {
             while ((line = br.readLine()) != null) {
                 fileNames.add(line);
                 collisionStatus.add(br.readLine());
-            }
+                damageStatus.add(br.readLine());
+                killStatus.add(br.readLine());
+            };
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,13 +72,17 @@ public class TileManager {
         for (int i = 0; i < fileNames.size(); i++) {
             String fileName;
             boolean collision;
+            boolean damage;
+            boolean kill;
             fileName = fileNames.get(i);
             collision = collisionStatus.get(i).equals("true");
-            setup(i, fileName, collision);
+            damage = damageStatus.get(i).equals("true");
+            kill = killStatus.get(i).equals("true");
+            setup(i, fileName, collision, damage, kill);
         }
     }
 
-    public void setup(int index, String imageName, boolean collision) {
+    public void setup(int index, String imageName, boolean collision, boolean damage, boolean kill) {
         UtilityTool utilityTool = new UtilityTool();
 
         try {
@@ -83,6 +91,8 @@ public class TileManager {
                     + imageName)));
             tile[index].image = utilityTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
+            tile[index].damage = damage;
+            tile[index].kill = kill;
         } catch (Exception e) {
             e.printStackTrace();
         }

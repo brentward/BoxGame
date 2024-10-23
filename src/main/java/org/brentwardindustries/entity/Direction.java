@@ -27,23 +27,6 @@ public enum Direction {
         }
         return oppositeDirection;
     }
-    public int speed(float currentSpeed) {
-        int speed = 0;
-        switch (this) {
-            case UP_RIGHT, RIGHT, DOWN_RIGHT -> speed = (int) currentSpeed;
-            case DOWN_LEFT, LEFT, UP_LEFT -> speed =  (int) (currentSpeed * -1.0f);
-        }
-        return speed;
-    }
-
-    public Direction horizontalDirection() {
-        Direction horizontalDirection = Direction.CENTER;
-        switch (this) {
-            case UP_LEFT, DOWN_LEFT, LEFT -> horizontalDirection = LEFT;
-            case UP_RIGHT, RIGHT, DOWN_RIGHT -> horizontalDirection = RIGHT;
-        }
-        return horizontalDirection;
-    }
 
     public Direction verticalDirection() {
         Direction verticalDirection = Direction.CENTER;
@@ -52,5 +35,14 @@ public enum Direction {
             case DOWN_RIGHT, DOWN, DOWN_LEFT -> verticalDirection = DOWN;
         }
         return verticalDirection;
+    }
+
+    public Direction horizontalDirection() {
+        Direction horizontalDirection = Direction.CENTER;
+        switch (this) {
+            case UP_RIGHT, RIGHT, DOWN_RIGHT -> horizontalDirection = RIGHT;
+            case DOWN_LEFT, LEFT, UP_LEFT -> horizontalDirection = LEFT;
+        }
+        return horizontalDirection;
     }
 }

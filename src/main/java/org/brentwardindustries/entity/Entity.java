@@ -12,16 +12,22 @@ public class Entity {
     public float acceleration;
     public float breaks;
     public float currentXSpeed;
-    public float currentYSpeed = 0f;
+    public float currentYSpeed;
+    public float tempXSpeed;
+    public float tempYSpeed;
     final public float gravity = 2.5f;
     public float terminalVelocity = 60f;
     public Direction direction;
     public boolean xCollision;
     public boolean yCollision;
     Direction dashDirection;
-    int dashCounter;
-    float jumpSpeed;
-    float dashSpeed;
+    int dashDuration;
+    int dashTimer;
+    int dashMax;
+    int dashCount;
+    float dashPower;
+    boolean dashing;
+    float jumpPower;
 
 //    public int worldX;
 //    public int worldY;
@@ -49,42 +55,46 @@ public class Entity {
     }
 
     public void setDashSpeed() {
+        if (!dashing) {
+            tempXSpeed = currentXSpeed;
+            tempYSpeed = currentYSpeed;
+        }
         dashDirection = gp.inputState.inputDirection;
         if (dashDirection == Direction.CENTER) {
             dashDirection = direction;
         }
         switch (dashDirection) {
             case UP_LEFT -> {
-                currentYSpeed = -(0.71f * dashSpeed);
-                currentXSpeed = -(0.71f * dashSpeed);
+                currentYSpeed = -(0.71f * dashPower);
+                currentXSpeed = -(0.71f * dashPower);
             }
             case UP -> {
-                currentYSpeed = -dashSpeed;
+                currentYSpeed = -dashPower;
                 currentXSpeed = 0;
             }
             case UP_RIGHT -> {
-                currentYSpeed = -(0.71f * dashSpeed);
-                currentXSpeed = 0.71f * dashSpeed;
+                currentYSpeed = -(0.71f * dashPower);
+                currentXSpeed = 0.71f * dashPower;
             }
             case RIGHT -> {
                 currentYSpeed = 0;
-                currentXSpeed = dashSpeed;
+                currentXSpeed = dashPower;
             }
             case DOWN_RIGHT -> {
-                currentYSpeed = 0.71f * dashSpeed;
-                currentXSpeed = 0.71f * dashSpeed;
+                currentYSpeed = 0.71f * dashPower;
+                currentXSpeed = 0.71f * dashPower;
             }
             case DOWN -> {
-                currentYSpeed = dashSpeed;
+                currentYSpeed = dashPower;
                 currentXSpeed = 0;
             }
             case DOWN_LEFT -> {
-                currentYSpeed = 0.71f * dashSpeed;
-                currentXSpeed = -(0.71f * dashSpeed);
+                currentYSpeed = 0.71f * dashPower;
+                currentXSpeed = -(0.71f * dashPower);
             }
             case LEFT -> {
                 currentYSpeed = 0;
-                currentXSpeed = -dashSpeed;
+                currentXSpeed = -dashPower;
             }
         }
     }
