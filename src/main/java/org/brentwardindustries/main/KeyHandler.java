@@ -70,10 +70,10 @@ public class KeyHandler implements KeyListener {
 
     public void titleState(int code) {
         if (code == KeyEvent.VK_W) {
-            gp.inputState.commandNumUp(1);
+            gp.inputState.commandNumDown(2);
         }
         if (code == KeyEvent.VK_S) {
-            gp.inputState.commandNumDown(1);
+            gp.inputState.commandNumUp(2);
         }
         if (code == KeyEvent.VK_ENTER) {
             gp.inputState.accept = true;
@@ -122,10 +122,10 @@ public class KeyHandler implements KeyListener {
 
     public void gameOverState(int code) {
         if (code == KeyEvent.VK_W) {
-            gp.inputState.commandNumUp(1);
+            gp.inputState.commandNumDown(1);
         }
         if (code == KeyEvent.VK_S) {
-            gp.inputState.commandNumDown(1);
+            gp.inputState.commandNumUp(1);
         }
         if (code == KeyEvent.VK_ENTER) {
             gp.inputState.accept = true;

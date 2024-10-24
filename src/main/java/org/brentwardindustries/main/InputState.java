@@ -50,7 +50,7 @@ public class InputState {
                     gp.resetGame();
                     gp.gameState = GamePanel.PLAY_STATE;
                 }
-                if (gp.inputState.commandNum == 1) {
+                if (gp.inputState.commandNum == 2) {
                     System.exit(0);
                 }
                 accept = false;

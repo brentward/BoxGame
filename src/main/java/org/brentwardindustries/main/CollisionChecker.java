@@ -44,6 +44,7 @@ public class CollisionChecker {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
             if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.inputState.commandNum = -1;
                 gp.gameState = GamePanel.GAME_OVER_STATE;
             }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
@@ -58,6 +59,7 @@ public class CollisionChecker {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
             if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.inputState.commandNum = -1;
                 gp.gameState = GamePanel.GAME_OVER_STATE;
             }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
@@ -71,6 +73,7 @@ public class CollisionChecker {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
             if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.inputState.commandNum = -1;
                 gp.gameState = GamePanel.GAME_OVER_STATE;
             }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
@@ -84,6 +87,7 @@ public class CollisionChecker {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
             if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.inputState.commandNum = -1;
                 gp.gameState = GamePanel.GAME_OVER_STATE;
             }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {

@@ -77,11 +77,20 @@ public class UI {
             g2D.drawString(">", x - gp.tileSize, y);
         }
 
-        text = "QUIT";
+        text = "LOAD GAME";
         x = getXForCenteredText(text);
         y += gp.tileSize;
         g2D.drawString(text, x, y);
         if (gp.inputState.commandNum == 1) {
+            g2D.drawString(">", x - gp.tileSize, y);
+        }
+
+
+        text = "QUIT";
+        x = getXForCenteredText(text);
+        y += gp.tileSize;
+        g2D.drawString(text, x, y);
+        if (gp.inputState.commandNum == 2) {
             g2D.drawString(">", x - gp.tileSize, y);
         }
 

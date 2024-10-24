@@ -78,13 +78,20 @@ public class ControllerHandler {
                         } else if (value == Component.POV.LEFT) {
                             gp.inputState.inputDirection = Direction.LEFT;
                         }
-                        if (gp.gameState == GamePanel.TITLE_STATE
-                                || gp.gameState == GamePanel.GAME_OVER_STATE) {
+                        if (gp.gameState == GamePanel.TITLE_STATE) {
                             if (gp.inputState.inputDirection.verticalDirection() == Direction.UP) {
-                                gp.inputState.commandNumUp(1);
+                                gp.inputState.commandNumDown(2);
                             }
                             if (gp.inputState.inputDirection.verticalDirection() == Direction.DOWN) {
+                                gp.inputState.commandNumUp(2);
+                            }
+                        }
+                        if (gp.gameState == GamePanel.GAME_OVER_STATE) {
+                            if (gp.inputState.inputDirection.verticalDirection() == Direction.UP) {
                                 gp.inputState.commandNumDown(1);
+                            }
+                            if (gp.inputState.inputDirection.verticalDirection() == Direction.DOWN) {
+                                gp.inputState.commandNumUp(1);
                             }
                         }
                     }
