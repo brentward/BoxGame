@@ -11,8 +11,8 @@ public class Entity {
     public float maxHSpeed;
     public float acceleration;
     public float breaks;
-    public float currentXSpeed;
-    public float currentYSpeed;
+    float currentXSpeed;
+    float currentYSpeed;
     public float tempXSpeed;
     public float tempYSpeed;
     final public float gravity = 2.5f;
@@ -53,6 +53,47 @@ public class Entity {
             currentXSpeed = 0;
         }
     }
+
+    public int getXSpeed() {
+        return (int) currentXSpeed;
+    }
+
+    public int getXSpeedSign() {
+        return (int) Math.signum(currentXSpeed);
+    }
+
+    public void zeroXSpeed() {
+        currentXSpeed = 0f;
+    }
+
+    public void setXSpeed(float speed) {
+        currentXSpeed = speed;
+    }
+
+    public void setXSpeed(int speed) {
+        currentXSpeed = (float) speed;
+    }
+
+    public int getYSpeed() {
+        return (int) currentYSpeed;
+    }
+
+    public int getYSpeedSign() {
+        return (int) Math.signum(currentYSpeed);
+    }
+
+    public void zeroYSpeed() {
+        currentYSpeed = 0f;
+    }
+
+    public void setYSpeed(float speed) {
+        currentYSpeed = speed;
+    }
+
+    public void setYSpeed(int speed) {
+        currentYSpeed = (float) speed;
+    }
+
 
     public void setDashSpeed() {
         if (!dashing) {

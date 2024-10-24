@@ -27,73 +27,105 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) {
-        int entityLeftWorldX = entity.solidArea.x + (int) entity.currentXSpeed;
-        int entityRightWorldX = entityLeftWorldX + entity.solidArea.width - 1;
-        int entityTopWorldY = entity.solidArea.y + (int) entity.currentYSpeed;
-        int entityBottomWorldY = entityTopWorldY + entity.solidArea.height - 1;
 
-        int entityLeftCol = (entityLeftWorldX / gp.tileSize) % gp.maxWorldCol;
-        int entityRightCol = (entityRightWorldX / gp.tileSize) % gp.maxWorldCol;
-        int entityTopRow = (entityTopWorldY / gp.tileSize) % gp.maxWorldRow;
-        int entityBottomRow = (entityBottomWorldY / gp.tileSize) % gp.maxWorldRow;
+        int xOffset = 0;
+        int yOffset = 0;
+//        int xSign = entity.getXSpeedSign();
+//        int ySign = entity.getYSpeedSign();
+//        if (entity.getXSpeed() > 0) {
+//            xSign = 1;
+//        } else if (entity.getXSpeed() < 0) {
+//            xSign = -1;
+//        }
+//        if (entity.getYSpeed() > 0) {
+//            ySign = 1;
+//        } else if (entity.getYSpeed() < 0) {
+//            ySign = -1;
+//        }
 
-        int tileNum1, tileNum2;
-
-
-        if (entity.currentYSpeed > 0) {
-            tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
-            tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
-            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
-                gp.inputState.commandNum = -1;
-                gp.gameState = GamePanel.GAME_OVER_STATE;
+        while (Math.abs(xOffset) < Math.abs(entity.getXSpeed())
+                || Math.abs(yOffset) < Math.abs(entity.getYSpeed())) {
+            xOffset += entity.getXSpeedSign() * gp.tileSize;
+            yOffset += entity.getYSpeedSign() * gp.tileSize;
+            if (Math.abs(xOffset) > Math.abs(entity.getXSpeed())) {
+                xOffset = entity.getXSpeed();
             }
-            if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                entity.yCollision = true;
-                entity.currentYSpeed = 0;
-                entity.solidArea.y = entityBottomRow * gp.tileSize - entity.solidArea.height;
+            if (Math.abs(yOffset) > Math.abs(entity.getYSpeed())) {
+                yOffset = entity.getYSpeed();
+            }
+            int entityLeftWorldX = entity.solidArea.x + xOffset;
+            int entityRightWorldX = entityLeftWorldX + entity.solidArea.width - 1;
+            int entityTopWorldY = entity.solidArea.y + yOffset;
+            int entityBottomWorldY = entityTopWorldY + entity.solidArea.height - 1;
+
+            int entityLeftCol = (entityLeftWorldX / gp.tileSize) % gp.maxWorldCol;
+            int entityRightCol = (entityRightWorldX / gp.tileSize) % gp.maxWorldCol;
+            int entityTopRow = (entityTopWorldY / gp.tileSize) % gp.maxWorldRow;
+            int entityBottomRow = (entityBottomWorldY / gp.tileSize) % gp.maxWorldRow;
+
+            int tileNum1, tileNum2;
+
+
+            if (entity.getYSpeed() > 0) {
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
+                if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                    gp.inputState.commandNum = -1;
+                    gp.gameState = GamePanel.GAME_OVER_STATE;
+                }
+                if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
+                    entity.yCollision = true;
+                    entity.zeroYSpeed();
+                    entity.solidArea.y = entityBottomRow * gp.tileSize - entity.solidArea.height;
+                }
+            }
+
+            if (entity.getYSpeed() < 0) {
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
+                if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                    gp.inputState.commandNum = -1;
+                    gp.gameState = GamePanel.GAME_OVER_STATE;
+                }
+                if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
+                    entity.yCollision = true;
+                    entity.zeroYSpeed();
+                    entity.solidArea.y = entityTopRow * gp.tileSize + gp.tileSize;
+                }
+            }
+            if (entity.getXSpeed() > 0) {
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
+                if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                    gp.inputState.commandNum = -1;
+                    gp.gameState = GamePanel.GAME_OVER_STATE;
+                }
+                if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
+                    entity.xCollision = true;
+                    entity.solidArea.x = entityRightCol * gp.tileSize - entity.solidArea.width;
+                    if (!entity.yCollision) {
+                        entity.zeroXSpeed();
+                    }
+                }
+            }
+
+            if (entity.getXSpeed() < 0) {
+                tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
+                tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
+                if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                    gp.inputState.commandNum = -1;
+                    gp.gameState = GamePanel.GAME_OVER_STATE;
+                }
+                if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
+                    entity.xCollision = true;
+                    entity.solidArea.x = entityLeftCol * gp.tileSize + gp.tileSize;
+                    if (!entity.yCollision) {
+                        entity.zeroXSpeed();
+                    }
+                }
+            }
+            if (entity.xCollision || entity.yCollision) {
                 return;
-            }
-        }
-
-        if (entity.currentYSpeed < 0) {
-            tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
-            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
-                gp.inputState.commandNum = -1;
-                gp.gameState = GamePanel.GAME_OVER_STATE;
-            }
-            if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                entity.yCollision = true;
-                entity.currentYSpeed = 0;
-                entity.solidArea.y = entityTopRow * gp.tileSize + gp.tileSize;
-                return;
-            }
-        }
-        if (entity.currentXSpeed > 0) {
-            tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
-            tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
-            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
-                gp.inputState.commandNum = -1;
-                gp.gameState = GamePanel.GAME_OVER_STATE;
-            }
-            if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                entity.xCollision = true;
-                entity.solidArea.x = entityRightCol * gp.tileSize - entity.solidArea.width;
-                entity.currentXSpeed = 0;
-            }
-        }
-
-        if (entity.currentXSpeed < 0) {
-            tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
-            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
-                gp.inputState.commandNum = -1;
-                gp.gameState = GamePanel.GAME_OVER_STATE;
-            }
-            if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
-                entity.xCollision = true;
-                entity.solidArea.x = entityLeftCol * gp.tileSize + gp.tileSize;
-                entity.currentXSpeed = 0;
             }
         }
     }
