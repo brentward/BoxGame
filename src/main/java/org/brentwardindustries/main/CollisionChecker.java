@@ -58,10 +58,10 @@ public class CollisionChecker {
             int entityTopWorldY = entity.solidArea.y + yOffset;
             int entityBottomWorldY = entityTopWorldY + entity.solidArea.height - 1;
 
-            int entityLeftCol = (entityLeftWorldX / gp.tileSize) % gp.maxWorldCol;
-            int entityRightCol = (entityRightWorldX / gp.tileSize) % gp.maxWorldCol;
-            int entityTopRow = (entityTopWorldY / gp.tileSize) % gp.maxWorldRow;
-            int entityBottomRow = (entityBottomWorldY / gp.tileSize) % gp.maxWorldRow;
+            int entityLeftCol = ((entityLeftWorldX / gp.tileSize) % gp.maxWorldCol + gp.maxWorldCol) % gp.maxWorldCol;
+            int entityRightCol = ((entityRightWorldX / gp.tileSize) % gp.maxWorldCol + gp.maxWorldCol) % gp.maxWorldCol;
+            int entityTopRow = ((entityTopWorldY / gp.tileSize) % gp.maxWorldRow + gp.maxWorldRow) % gp.maxWorldRow;
+            int entityBottomRow = ((entityBottomWorldY / gp.tileSize) % gp.maxWorldRow + gp.maxWorldRow) % gp.maxWorldRow;
 
             int tileNum1, tileNum2;
 
