@@ -43,6 +43,9 @@ public class CollisionChecker {
         if (entity.currentYSpeed > 0) {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
+            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.gameState = GamePanel.GAME_OVER_STATE;
+            }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
                 entity.yCollision = true;
                 entity.currentYSpeed = 0;
@@ -54,6 +57,9 @@ public class CollisionChecker {
         if (entity.currentYSpeed < 0) {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
+            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.gameState = GamePanel.GAME_OVER_STATE;
+            }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
                 entity.yCollision = true;
                 entity.currentYSpeed = 0;
@@ -64,6 +70,9 @@ public class CollisionChecker {
         if (entity.currentXSpeed > 0) {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
+            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.gameState = GamePanel.GAME_OVER_STATE;
+            }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
                 entity.xCollision = true;
                 entity.solidArea.x = entityRightCol * gp.tileSize - entity.solidArea.width;
@@ -74,6 +83,9 @@ public class CollisionChecker {
         if (entity.currentXSpeed < 0) {
             tileNum1 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
             tileNum2 = gp.tileManager.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
+            if (gp.tileManager.tile[tileNum1].kill || gp.tileManager.tile[tileNum2].kill) {
+                gp.gameState = GamePanel.GAME_OVER_STATE;
+            }
             if (gp.tileManager.tile[tileNum1].collision || gp.tileManager.tile[tileNum2].collision) {
                 entity.xCollision = true;
                 entity.solidArea.x = entityLeftCol * gp.tileSize + gp.tileSize;

@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void resetGame() {
         player.reset();
+        inputState.reset();
     }
 
     @Override

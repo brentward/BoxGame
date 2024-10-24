@@ -47,7 +47,7 @@ public class InputState {
         if (gp.gameState == GamePanel.TITLE_STATE) {
             if (accept) {
                 if (gp.inputState.commandNum == 0) {
-                    reset();
+                    gp.resetGame();
                     gp.gameState = GamePanel.PLAY_STATE;
                 }
                 if (gp.inputState.commandNum == 1) {
