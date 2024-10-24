@@ -1,12 +1,24 @@
 package org.brentwardindustries.entity;
 
 import org.brentwardindustries.main.GamePanel;
+import org.brentwardindustries.main.UtilityTool;
 
+import javax.imageio.ImageIO;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Entity {
     GamePanel gp;
     public Rectangle solidArea = new Rectangle(0, 0, 0, 0);;
+    public BufferedImage[] standing = new BufferedImage[2];
+    public BufferedImage[] jumping = new BufferedImage[2];
+    public BufferedImage[] move1 = new BufferedImage[2];
+    public BufferedImage[] move2 = new BufferedImage[2];
+    public BufferedImage[] dash = new BufferedImage[2];
+    int solidAreaXOffset;
+    int solidAreaYOffset;
 
     public float maxHSpeed;
     public float acceleration;
@@ -15,7 +27,7 @@ public class Entity {
     float currentYSpeed;
     public float tempXSpeed;
     public float tempYSpeed;
-    final public float gravity = 2.5f;
+    final public float gravity = 1.85f;
     public float terminalVelocity = 60f;
     public Direction direction;
     public boolean xCollision;
@@ -52,6 +64,19 @@ public class Entity {
         if (currentXSpeed < 0) {
             currentXSpeed = 0;
         }
+    }
+
+    public BufferedImage setup(String imagePath, int width, int height) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
+            image = utilityTool.scaleImage(image, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
     public int getXSpeed() {

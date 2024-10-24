@@ -64,7 +64,7 @@ public class UI {
         // BLUE BOY IMAGE
         x = gp.screenWidth / 2 - gp.tileSize;
         y += gp.tileSize * 2;
-        g2D.fillRect(x, y, gp.player.solidArea.width * 2, gp.player.solidArea.height * 2);
+        g2D.drawImage(gp.player.standing[0], x, y, gp.tileSize * 2, gp.tileSize * 2, null);
 
         // MENU
         g2D.setFont(g2D.getFont().deriveFont(Font.BOLD, 48f));
