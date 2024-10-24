@@ -49,6 +49,7 @@ public class InputState {
                 if (gp.inputState.commandNum == 0) {
                     gp.resetGame();
                     gp.gameState = GamePanel.PLAY_STATE;
+                    gp.playMusic(0);
                 }
                 if (gp.inputState.commandNum == 2) {
                     System.exit(0);
@@ -59,11 +60,15 @@ public class InputState {
         if (gp.gameState == GamePanel.PLAY_STATE) {
             if (pause) {
                 gp.gameState = GamePanel.PAUSE_STATE;
+                gp.stopMusic();
+                gp.playSE(5);
             }
         }
         if (gp.gameState == GamePanel.PAUSE_STATE) {
             if (!pause) {
                 gp.gameState = GamePanel.PLAY_STATE;
+                gp.playSE(5);
+                gp.resumeMusic();
             }
         }
         if (gp.gameState == GamePanel.GAME_OVER_STATE) {
@@ -71,6 +76,7 @@ public class InputState {
                 if (gp.inputState.commandNum == 0) {
                     gp.resetGame();
                     gp.gameState = GamePanel.PLAY_STATE;
+                    gp.playMusic(0);
                 }
                 if (gp.inputState.commandNum == 1) {
                     System.exit(0);

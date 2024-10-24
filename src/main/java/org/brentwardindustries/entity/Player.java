@@ -59,9 +59,11 @@ public class Player extends Entity{
     public void update() {
         xCollision = false;
         yCollision = false;
+        grounded = gp.collisionChecker.checkGrounded(this);
 
         if (gp.inputState.dash) {
             if (dashCount > 0) {
+                gp.playSE(2);
                 dashCount--;
                 dashTimer = dashDuration;
                 setDashSpeed();
@@ -80,7 +82,11 @@ public class Player extends Entity{
             if (gp.inputState.inputDirection.horizontalDirection() == Direction.LEFT) {
                 if (direction == Direction.LEFT) {
                     if (currentXSpeed > -maxHSpeed) {
-                        currentXSpeed -= acceleration;
+                        if (grounded) {
+                            currentXSpeed -= acceleration;
+                        } else {
+                            currentXSpeed -= (acceleration * 0.75f);
+                        }
                     }
                     if (currentXSpeed < -maxHSpeed) {
                         currentXSpeed = -maxHSpeed;
@@ -100,7 +106,11 @@ public class Player extends Entity{
             } else if (gp.inputState.inputDirection.horizontalDirection() == Direction.RIGHT) {
                 if (direction == Direction.RIGHT) {
                     if (currentXSpeed < maxHSpeed) {
-                        currentXSpeed += acceleration;
+                        if (grounded) {
+                            currentXSpeed += acceleration;
+                        } else {
+                            currentXSpeed += (acceleration * 0.75f);
+                        }
                     }
                     if (currentXSpeed > maxHSpeed) {
                         currentXSpeed = maxHSpeed;
@@ -132,13 +142,11 @@ public class Player extends Entity{
                 }
             }
 
-            if (gp.collisionChecker.checkGrounded(this)) {
+            if (grounded) {
                 currentYSpeed = 0;
                 dashCount = dashMax;
-//                if (gp.collisionChecker.inTile(this)) {
-//                    solidArea.y -= 1;
-//                }
                 if (gp.inputState.jump) {
+                    gp.playSE(4);
                     currentYSpeed = -jumpPower;
                     gp.inputState.jump = false;
                 }
@@ -170,7 +178,7 @@ public class Player extends Entity{
         }
         if (dashing) {
             image = dash[imageIndex];
-        } else if (!gp.collisionChecker.checkGrounded(this)) {
+        } else if (!grounded) {
             image = jumping[imageIndex];
         } else if (getXSpeed() == 0) {
             image = standing[imageIndex];

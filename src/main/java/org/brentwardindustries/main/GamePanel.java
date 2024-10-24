@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public InputState inputState = new InputState(this);
     public ControllerHandler controllerHandler = new ControllerHandler(this);
+    Sound se = new Sound();
+    Sound music = new Sound();
     public KeyHandler keyHandler = new KeyHandler(this);
     public TileManager tileManager = new TileManager(this);
     public UI ui = new UI(this);
@@ -68,6 +70,13 @@ public class GamePanel extends JPanel implements Runnable {
         inputState.reset();
     }
 
+    public void killPlayer() {
+        inputState.commandNum = -1;
+        gameState = GAME_OVER_STATE;
+        stopMusic();
+        playSE(6);
+    }
+
     @Override
     public void run() {
         double drawInterval = 1_000_000_000 / (double) FPS;
@@ -94,6 +103,28 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == PLAY_STATE) {
             player.update();
         }
+    }
+
+    public void playMusic(int i) {
+        music.setFile(i);
+        music.playLoop();
+    }
+
+    public void resumeMusic() {
+        music.playLoop();
+    }
+
+    public void stopMusic() {
+        music.stop();
+    }
+
+    public  void endMusic() {
+        music.end();
+    }
+
+    public void playSE(int i) {
+        se.setFile(i);
+        se.play();
     }
 
     public void paintComponent(Graphics g) {

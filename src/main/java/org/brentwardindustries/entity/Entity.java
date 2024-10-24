@@ -40,30 +40,10 @@ public class Entity {
     float dashPower;
     boolean dashing;
     float jumpPower;
-
-//    public int worldX;
-//    public int worldY;
+    boolean grounded;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
-    }
-
-    public void speedUp() {
-        if (currentXSpeed < maxHSpeed) {
-            currentXSpeed += acceleration;
-        }
-        if (currentXSpeed > maxHSpeed) {
-            currentXSpeed = maxHSpeed;
-        }
-    }
-
-    public void speedDown() {
-        if (currentXSpeed > 0) {
-            currentXSpeed -= breaks;
-        }
-        if (currentXSpeed < 0) {
-            currentXSpeed = 0;
-        }
     }
 
     public BufferedImage setup(String imagePath, int width, int height) {
@@ -118,7 +98,6 @@ public class Entity {
     public void setYSpeed(int speed) {
         currentYSpeed = (float) speed;
     }
-
 
     public void setDashSpeed() {
         if (!dashing) {
